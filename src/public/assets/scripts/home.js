@@ -26,6 +26,12 @@ socket.on('newProduct',(producto, productos)=>{
         cargaCelulares();
 })
 
+socket.on('deleteProduct',(producto, productos)=>{
+    
+    console.log(`se dio de baja a ${producto.modelo}`)
+    cargaCelulares();
+})
+
 
 
 

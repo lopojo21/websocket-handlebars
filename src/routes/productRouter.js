@@ -54,14 +54,14 @@ productRouter.get('/products', async(req,res) => {
             return res.status(200).send(productos);   
         };
     });
-productRouter.get('/products:pid', async (req,res) => {
+    productRouter.get('/products/:pid', async (req,res) => {
         
         const productoID = await pManager.getProductByID(parseInt(req.params.pid));
         
     return res.status(200).send(productoID);  
     });
 
-productRouter.put('/products:pid', async (req,res)=>{
+productRouter.put('/products/:pid', async (req,res)=>{
     const producto= req.body;
     const id= parseInt(req.params.pid);
     
@@ -79,9 +79,11 @@ productRouter.put('/products:pid', async (req,res)=>{
     
 
 
-productRouter.delete('/products:pid', async (req,res)=>{
-    const id= parseInt(req.params.pid);  
-    await pManager.deleteProduct(id);
+productRouter.delete('/products/:pid', async (req,res)=>{
+    const id= parseInt(req.params.pid);
+    const producto= req.body;
+    let productos=await pManager.deleteProduct(id);
+    server.emit('deleteProduct',producto,productos);
 return res.status(200).send({status:'success', message:'Product DELETED'});
     }
     
